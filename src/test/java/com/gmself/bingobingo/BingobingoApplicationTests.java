@@ -11,6 +11,7 @@ public class BingobingoApplicationTests {
 
 	@Test
 	public void contextLoads() {
+		System.out.println("******************");
 	}
 
 }
