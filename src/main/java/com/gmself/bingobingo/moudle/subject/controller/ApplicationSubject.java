@@ -1,9 +1,8 @@
-package com.gmself.bingobingo.controller;
+package com.gmself.bingobingo.moudle.subject.controller;
 
-import com.gmself.bingobingo.db.dao.UserMapper;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -21,8 +20,8 @@ public class ApplicationSubject {
 //        sqlSessionFactory =  SingletonMybatis.getSqlSessionFactory();
 //    }
 
-    @RequestMapping(value = "/recording", method = RequestMethod.POST)
-    public void doLogin(HttpServletRequest request, HttpServletResponse response)
+    @PostMapping(value = "/recording")
+    public void doLogin(HttpServletRequest request, HttpServletResponse response, @RequestBody String string)
     {
 
         String str = request.getMethod();

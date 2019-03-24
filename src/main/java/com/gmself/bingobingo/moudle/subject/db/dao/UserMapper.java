@@ -1,6 +1,6 @@
-package com.gmself.bingobingo.db.dao;
+package com.gmself.bingobingo.moudle.subject.db.dao;
 
-import com.gmself.bingobingo.db.entity.User;
+import com.gmself.bingobingo.moudle.subject.entity.User;
 
 public interface UserMapper {
     /**
