@@ -5,6 +5,7 @@ import com.gmself.bingobingo.module.subject.db.dao.UserMapper;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
@@ -15,6 +16,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -25,7 +27,9 @@ import javax.sql.DataSource;
 		sqlSessionTemplateRef = "sqlSessionTemplate",
 		annotationClass = Repository.class
 )
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class) //mybatis自动配置数据源
+//@ImportResource(locations = {"classpath:beans.xml"})
+//@SpringBootApplication(exclude = DataSourceAutoConfiguration.class) //mybatis自动配置数据源
+@SpringBootApplication() //mybatis自动配置数据源
 public class BingobingoApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
@@ -43,13 +47,14 @@ public class BingobingoApplication extends SpringBootServletInitializer {
 		return new SubjectAspect();
 	}
 
-	@Bean(name = "sqlSessionFactory")
-	public SqlSessionFactory initSqlSessionFactory(){
-		      DataSource dataSource = new PooledDataSource("com.mysql.jdbc.Driver",
-              "jdbc:mysql://localhost/mybatis?userUnicode=true&amp;characterEncoding=utf8", "admin", "123456");
-      Environment environment = new Environment("test", new JdbcTransactionFactory(), dataSource);
-      Configuration configuration = new Configuration(environment);
-      configuration.addMapper(UserMapper.class);
-      return new SqlSessionFactoryBuilder().build(configuration);
-	}
+//	@Bean(name = "sqlSessionFactory")
+//	public SqlSessionFactory initSqlSessionFactory(){
+//		      DataSource dataSource = new PooledDataSource("com.mysql.jdbc.Driver",
+//              "jdbc:mysql://localhost/mybatis?userUnicode=true&amp;characterEncoding=utf8", "admin", "123456");
+//      Environment environment = new Environment("test", new JdbcTransactionFactory(), dataSource);
+//      Configuration configuration = new Configuration(environment);
+//      configuration.addMapper(UserMapper.class);
+//      return new SqlSessionFactoryBuilder().build(configuration);
+//	}
+
 }

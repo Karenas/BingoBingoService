@@ -1,0 +1,33 @@
+server:
+  port: 59000
+  servlet:
+    context-path: /bingobingo/
+
+#spring.datasource.url=
+#spring.datasource.
+
+#mybatis.mapper-locations=com.gmself.bingobingo.db.mapper.*/xml
+#
+#logging.level.com.gmself.bingobingo.db.User_dbMapper=trace
+
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://www.gmself.com:3306/bingobingo?useSSL=false
+    username: bingo
+    password: bingo
+#
+#spring.jpa.hibernate.ddl-auto=create
+#  #ddl-auto:��Ϊcreate��ʾÿ�ζ����½���
+  jpa:
+    show-sql: true
+
+
+mybatis:
+  mapper-locations: classpath:com/gmself/bingobingo/module/subject/db/dao/mapper/*.xml
+  type-aliases-package: com.gmself.bingobingo
+  type-handlers-package: com.gmself.bingobingo
+
+
+

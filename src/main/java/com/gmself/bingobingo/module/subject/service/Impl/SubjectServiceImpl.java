@@ -1,5 +1,6 @@
 package com.gmself.bingobingo.module.subject.service.Impl;
 
+import com.gmself.bingobingo.module.subject.db.CommonDao;
 import com.gmself.bingobingo.module.subject.db.dao.UserMapper;
 import com.gmself.bingobingo.module.subject.entity.User;
 import com.gmself.bingobingo.module.subject.service.SubjectService;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
 
 @Service
-public class SubjectServiceImpl implements SubjectService{
+public class SubjectServiceImpl extends CommonDao implements SubjectService{
 
    @Autowired
    private UserMapper userMapper;
