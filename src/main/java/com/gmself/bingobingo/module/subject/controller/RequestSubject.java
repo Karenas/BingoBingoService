@@ -1,5 +1,8 @@
-package com.gmself.bingobingo.moudle.subject.controller;
+package com.gmself.bingobingo.module.subject.controller;
 
+import com.gmself.bingobingo.module.subject.entity.User;
+import com.gmself.bingobingo.module.subject.service.SubjectService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,23 +11,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Random;
 
 @Controller
-@RequestMapping(value = "/app_subject", method = RequestMethod.POST)
-public class ApplicationSubject {
-    Random random = new Random();
+@RequestMapping(value = "/m_subject", method = RequestMethod.POST)
+public class RequestSubject {
 
-//    private static SqlSessionFactory sqlSessionFactory;
-//    static {
-//        sqlSessionFactory =  SingletonMybatis.getSqlSessionFactory();
-//    }
+    @Autowired
+    private SubjectService subjectService = null;
 
-    @PostMapping(value = "/recording")
-    public void doLogin(HttpServletRequest request, HttpServletResponse response, @RequestBody String string)
+    @PostMapping(value = "/punch")
+    public void doPunchUser(HttpServletRequest request, HttpServletResponse response, @RequestBody User user)
     {
 
-        String str = request.getMethod();
+//        String str = subjectService.PunchUser(user);
+
+        User user1 = subjectService.getUserByPhoneNumber(user.getPhoneNumber());
+
+        System.out.println(user1.getName());
 
 //        HashMap<String, Object> map = new HashMap<String, Object>();
 //
