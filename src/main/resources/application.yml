@@ -13,21 +13,29 @@ server:
 
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver #com.mysql.jdbc.Driver
     url: jdbc:mysql://www.gmself.com:3306/bingobingo?useSSL=false
     username: bingo
     password: bingo
 #
 #spring.jpa.hibernate.ddl-auto=create
-#  #ddl-auto:��Ϊcreate��ʾÿ�ζ����½���
+#  #ddl-auto:
   jpa:
     show-sql: true
 
 
 mybatis:
   mapper-locations: classpath:com/gmself/bingobingo/module/subject/db/dao/mapper/*.xml
-  type-aliases-package: com.gmself.bingobingo
+  type-aliases-package: com.gmself.bingobingo.module.subject.entity
   type-handlers-package: com.gmself.bingobingo
+
+logging:
+  level:
+   root: debug
+   org:
+    springframework: debug
+    mybatis: debug
+
 
 
 

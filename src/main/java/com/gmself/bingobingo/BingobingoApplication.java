@@ -10,6 +10,8 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.spring.annotation.MapperScan;
+import org.mybatis.spring.mapper.MapperFactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -22,7 +24,7 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 
 @MapperScan(
-		basePackages = "com.gmself.bingobingo",
+		basePackages = "com.gmself.bingobingo.module",
 		sqlSessionFactoryRef = "sqlSessionFactory",
 		sqlSessionTemplateRef = "sqlSessionTemplate",
 		annotationClass = Repository.class
@@ -46,15 +48,5 @@ public class BingobingoApplication extends SpringBootServletInitializer {
 	public SubjectAspect initSubjectAspect(){
 		return new SubjectAspect();
 	}
-
-//	@Bean(name = "sqlSessionFactory")
-//	public SqlSessionFactory initSqlSessionFactory(){
-//		      DataSource dataSource = new PooledDataSource("com.mysql.jdbc.Driver",
-//              "jdbc:mysql://localhost/mybatis?userUnicode=true&amp;characterEncoding=utf8", "admin", "123456");
-//      Environment environment = new Environment("test", new JdbcTransactionFactory(), dataSource);
-//      Configuration configuration = new Configuration(environment);
-//      configuration.addMapper(UserMapper.class);
-//      return new SqlSessionFactoryBuilder().build(configuration);
-//	}
 
 }

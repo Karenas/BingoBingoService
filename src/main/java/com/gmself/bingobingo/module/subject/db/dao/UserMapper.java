@@ -1,8 +1,8 @@
 package com.gmself.bingobingo.module.subject.db.dao;
 
 import com.gmself.bingobingo.module.subject.entity.User;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 @Repository
 public interface UserMapper {

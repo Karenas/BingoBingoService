@@ -28,7 +28,6 @@ public class SubjectServiceImpl extends CommonDao implements SubjectService{
 
    @Override
    public User getUserByPhoneNumber(String phoneNumber) {
-
       return userMapper.selectUserByPhoneNumber(phoneNumber);
    }
 
