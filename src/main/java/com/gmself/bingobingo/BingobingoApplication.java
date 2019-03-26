@@ -1,5 +1,6 @@
 package com.gmself.bingobingo;
 
+import com.gmself.bingobingo.function.timerTask.TimerTaskManager;
 import com.gmself.bingobingo.module.subject.aop.SubjectAspect;
 import com.gmself.bingobingo.module.subject.db.dao.UserMapper;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
@@ -36,6 +37,8 @@ public class BingobingoApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BingobingoApplication.class, args);
+
+		TimerTaskManager.getInstance().run();
 	}
 
 	@Override//为了打包springboot项目

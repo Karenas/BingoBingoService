@@ -25,16 +25,17 @@ spring:
 
 
 mybatis:
-  mapper-locations: classpath:com/gmself/bingobingo/module/subject/db/dao/mapper/*.xml
+#  mapper-locations: classpath:com/gmself/bingobingo/module/subject/db/dao/mapper/*.xml
+  mapper-locations: classpath:com/gmself/bingobingo/mapper/*.xml
   type-aliases-package: com.gmself.bingobingo.module.subject.entity
   type-handlers-package: com.gmself.bingobingo
 
-logging:
-  level:
-   root: debug
-   org:
-    springframework: debug
-    mybatis: debug
+#logging:
+#  level:
+#   root: debug
+#   org:
+#    springframework: debug
+#    mybatis: debug
 
 
 
