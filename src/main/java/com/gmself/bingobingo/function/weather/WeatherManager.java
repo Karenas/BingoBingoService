@@ -10,6 +10,11 @@ import com.alibaba.cloudapi.sdk.model.ApiCallback;
 import com.alibaba.cloudapi.sdk.model.ApiRequest;
 import com.alibaba.cloudapi.sdk.model.ApiResponse;
 import com.alibaba.cloudapi.sdk.model.HttpClientBuilderParams;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.gmself.bingobingo.function.weather.entity.WeatherApiResult;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.io.IOException;
 
 
@@ -25,28 +30,44 @@ public class WeatherManager{
         httpParam.setAppKey("25890866");
         httpParam.setAppSecret("739aac87a6c6a4566adccc794be5bd3e");
         HttpApiClient.getInstance().init(httpParam);
-
     }
+
+    @Autowired
+    private WeatherManager weatherManager;
+
+//    @Autowired
+//    private CityMapper cityMapper;
 
     /**
      * 精简预报3天
      * */
-    public static void HttpTestJJ3(){
-        HttpApiClient.getInstance().JJYB3(token , "2" , new ApiCallback() {
-            @Override
-            public void onFailure(ApiRequest request, Exception e) {
-                e.printStackTrace();
-            }
+    public static void HttpTestJJ3(String cityID){
 
-            @Override
-            public void onResponse(ApiRequest request, ApiResponse response) {
-                try {
-                    System.out.println(getResultString(response));
-                }catch (Exception ex){
-                    ex.printStackTrace();
-                }
-            }
-        });
+        String resBody = "{\"code\":0,\"data\":{\"city\":{\"cityId\":2,\"counname\":\"中国\",\"ianatimezone\":\"Asia\\/Shanghai\",\"name\":\"北京市\",\"pname\":\"北京市\",\"timezone\":\"8\"},\"forecast\":[{\"conditionDay\":\"多云\",\"conditionIdDay\":\"1\",\"conditionIdNight\":\"31\",\"conditionNight\":\"多云\",\"predictDate\":\"2019-03-28\",\"tempDay\":\"11\",\"tempNight\":\"2\",\"updatetime\":\"2019-03-28 14:05:00\",\"windDegreesDay\":\"180\",\"windDegreesNight\":\"180\",\"windDirDay\":\"南风\",\"windDirNight\":\"南风\",\"windLevelDay\":\"3\",\"windLevelNight\":\"3\"},{\"conditionDay\":\"多云\",\"conditionIdDay\":\"1\",\"conditionIdNight\":\"30\",\"conditionNight\":\"晴\",\"predictDate\":\"2019-03-29\",\"tempDay\":\"13\",\"tempNight\":\"4\",\"updatetime\":\"2019-03-28 14:05:00\",\"windDegreesDay\":\"315\",\"windDegreesNight\":\"315\",\"windDirDay\":\"西北风\",\"windDirNight\":\"西北风\",\"windLevelDay\":\"3-4\",\"windLevelNight\":\"3-4\"},{\"conditionDay\":\"晴\",\"conditionIdDay\":\"0\",\"conditionIdNight\":\"30\",\"conditionNight\":\"晴\",\"predictDate\":\"2019-03-30\",\"tempDay\":\"13\",\"tempNight\":\"2\",\"updatetime\":\"2019-03-28 14:05:00\",\"windDegreesDay\":\"315\",\"windDegreesNight\":\"0\",\"windDirDay\":\"西北风\",\"windDirNight\":\"北风\",\"windLevelDay\":\"4-5\",\"windLevelNight\":\"3-4\"}]},\"msg\":\"success\",\"rc\":{\"c\":0,\"p\":\"success\"}}";
+        WeatherApiResult weather = JSON.parseObject(resBody, WeatherApiResult.class);
+
+        System.out.println(weather);
+
+//        HttpApiClient.getInstance().JJYB3(token , cityID , new ApiCallback() {
+//            @Override
+//            public void onFailure(ApiRequest request, Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//            @Override
+//            public void onResponse(ApiRequest request, ApiResponse response) {
+//
+//                String resBody = new String(response.getBody() , SdkConstant.CLOUDAPI_ENCODING);
+//                WeatherApiResult weather = JSON.parseObject(resBody, WeatherApiResult.class);
+//            //{"code":0,"data":{"city":{"cityId":2,"counname":"中国","ianatimezone":"Asia\/Shanghai","name":"北京市","pname":"北京市","timezone":"8"},"forecast":[{"conditionDay":"多云","conditionIdDay":"1","conditionIdNight":"31","conditionNight":"多云","predictDate":"2019-03-28","tempDay":"11","tempNight":"2","updatetime":"2019-03-28 14:05:00","windDegreesDay":"180","windDegreesNight":"180","windDirDay":"南风","windDirNight":"南风","windLevelDay":"3","windLevelNight":"3"},{"conditionDay":"多云","conditionIdDay":"1","conditionIdNight":"30","conditionNight":"晴","predictDate":"2019-03-29","tempDay":"13","tempNight":"4","updatetime":"2019-03-28 14:05:00","windDegreesDay":"315","windDegreesNight":"315","windDirDay":"西北风","windDirNight":"西北风","windLevelDay":"3-4","windLevelNight":"3-4"},{"conditionDay":"晴","conditionIdDay":"0","conditionIdNight":"30","conditionNight":"晴","predictDate":"2019-03-30","tempDay":"13","tempNight":"2","updatetime":"2019-03-28 14:05:00","windDegreesDay":"315","windDegreesNight":"0","windDirDay":"西北风","windDirNight":"北风","windLevelDay":"4-5","windLevelNight":"3-4"}]},"msg":"success","rc":{"c":0,"p":"success"}}
+//
+//                try {
+//                    System.out.println(getResultString(response));
+//                }catch (Exception ex){
+//                    ex.printStackTrace();
+//                }
+//            }
+//        });
     }
 
     /**
@@ -65,8 +86,8 @@ public class WeatherManager{
     /**
      * 精简实况
      * */
-    public static void HttpTestJJSK(){
-        HttpApiClient.getInstance().JJSK(token , "2" , new ApiCallback() {
+    public static void HttpTestJJSK(String cityID){
+        HttpApiClient.getInstance().JJSK(token , cityID , new ApiCallback() {
             @Override
             public void onFailure(ApiRequest request, Exception e) {
                 e.printStackTrace();
@@ -74,6 +95,8 @@ public class WeatherManager{
 
             @Override
             public void onResponse(ApiRequest request, ApiResponse response) {
+
+
                 try {
                     System.out.println(getResultString(response));
                 }catch (Exception ex){
@@ -128,9 +151,6 @@ public class WeatherManager{
             ex.printStackTrace();
         }
     }
-
-
-
 
     private static String getResultString(ApiResponse response) throws IOException {
         StringBuilder result = new StringBuilder();

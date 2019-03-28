@@ -17,7 +17,7 @@ public class TimerTaskManager {
     public void run(){
         Runnable runnable = new Runnable() {
             public void run() {
-//                WeatherManager.HttpTestJJSK();
+                WeatherManager.HttpTestJJ3("2");//北京
             }
         };
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
