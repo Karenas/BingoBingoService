@@ -44,9 +44,6 @@ public class HttpApiClient extends ApacheHttpClient{
         ApiRequest request = new ApiRequest(HttpMethod.POST_FORM , path);
         request.addParam("token" , token , ParamPosition.BODY , false);
         request.addParam("cityId" , cityId , ParamPosition.BODY , true);
-
-
-
         return sendSyncRequest(request);
     }
     public void JJSK(String token , String cityId , ApiCallback callback) {
@@ -65,9 +62,6 @@ public class HttpApiClient extends ApacheHttpClient{
         ApiRequest request = new ApiRequest(HttpMethod.POST_FORM , path);
         request.addParam("token" , token , ParamPosition.BODY , false);
         request.addParam("cityId" , cityId , ParamPosition.BODY , true);
-
-
-
         return sendSyncRequest(request);
     }
     public void JJ_AQI(String cityId , String token , ApiCallback callback) {

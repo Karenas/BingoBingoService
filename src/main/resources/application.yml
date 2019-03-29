@@ -14,7 +14,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver #com.mysql.jdbc.Driver
-    url: jdbc:mysql://www.gmself.com:3306/bingobingo?useSSL=false
+    url: jdbc:mysql://www.gmself.com:3306/bingobingo?useSSL=false&useUnicode=true&characterEncoding=utf-8
     username: bingo
     password: bingo
 #

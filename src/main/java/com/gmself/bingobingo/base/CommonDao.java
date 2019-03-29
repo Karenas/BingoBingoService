@@ -1,4 +1,4 @@
-package com.gmself.bingobingo.module.subject.db;
+package com.gmself.bingobingo.base;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;

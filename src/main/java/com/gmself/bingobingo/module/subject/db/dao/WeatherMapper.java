@@ -20,4 +20,9 @@ public interface WeatherMapper {
      * @mbggenerated
      */
     int insertSelective(Weather record);
+
+    Weather selectByPredictDate(String predictDate);
+
+    int update(Weather record);
+
 }

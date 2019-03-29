@@ -8,14 +8,14 @@
     -->
     <result column="id" property="id" jdbcType="INTEGER" />
     <result column="city_id" property="cityId" jdbcType="INTEGER" />
-    <result column="predict_date" property="predictDate" jdbcType="TIMESTAMP" />
+    <result column="predict_date" property="predictDate" jdbcType="VARCHAR" />
     <result column="condition_day" property="conditionDay" jdbcType="VARCHAR" />
     <result column="condition_id_day" property="conditionIdDay" jdbcType="VARCHAR" />
     <result column="condition_id_night" property="conditionIdNight" jdbcType="VARCHAR" />
     <result column="condition_night" property="conditionNight" jdbcType="VARCHAR" />
     <result column="temp_day" property="tempDay" jdbcType="VARCHAR" />
     <result column="temp_night" property="tempNight" jdbcType="VARCHAR" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
     <result column="wind_dir_day" property="windDirDay" jdbcType="VARCHAR" />
     <result column="wind_dir_night" property="windDirNight" jdbcType="VARCHAR" />
     <result column="wind_level_day" property="windLevelDay" jdbcType="VARCHAR" />
@@ -31,12 +31,13 @@
       condition_night, temp_day, temp_night, 
       update_time, wind_dir_day, wind_dir_night, 
       wind_level_day, wind_level_night)
-    values (#{id,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, #{predictDate,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, #{predictDate,jdbcType=VARCHAR},
       #{conditionDay,jdbcType=VARCHAR}, #{conditionIdDay,jdbcType=VARCHAR}, #{conditionIdNight,jdbcType=VARCHAR}, 
       #{conditionNight,jdbcType=VARCHAR}, #{tempDay,jdbcType=VARCHAR}, #{tempNight,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{windDirDay,jdbcType=VARCHAR}, #{windDirNight,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=VARCHAR}, #{windDirDay,jdbcType=VARCHAR}, #{windDirNight,jdbcType=VARCHAR},
       #{windLevelDay,jdbcType=VARCHAR}, #{windLevelNight,jdbcType=VARCHAR})
   </insert>
+
   <insert id="insertSelective" parameterType="com.gmself.bingobingo.module.subject.entity.Weather" >
     <!--
       WARNING - @mbggenerated
@@ -95,7 +96,7 @@
         #{cityId,jdbcType=INTEGER},
       </if>
       <if test="predictDate != null" >
-        #{predictDate,jdbcType=TIMESTAMP},
+        #{predictDate,jdbcType=VARCHAR},
       </if>
       <if test="conditionDay != null" >
         #{conditionDay,jdbcType=VARCHAR},
@@ -116,7 +117,7 @@
         #{tempNight,jdbcType=VARCHAR},
       </if>
       <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=VARCHAR},
       </if>
       <if test="windDirDay != null" >
         #{windDirDay,jdbcType=VARCHAR},
@@ -132,4 +133,25 @@
       </if>
     </trim>
   </insert>
+
+  <select id="selectByPredictDate" parameterType="java.lang.String" resultType="com.gmself.bingobingo.module.subject.entity.Weather">
+    select * from weather WHERE predict_date = #{predictDate};
+  </select>
+
+  <update id="update" parameterType="com.gmself.bingobingo.module.subject.entity.Weather">
+    update weather set
+    condition_day = #{conditionDay},
+    condition_id_day = #{conditionIdDay},
+    condition_id_night = #{conditionIdNight},
+    condition_night = #{conditionNight},
+    temp_day = #{tempDay},
+    temp_night = #{tempNight},
+    update_time = #{updateTime},
+    wind_dir_day = #{windDirDay},
+    wind_dir_night = #{windDirNight},
+    wind_level_day = #{windLevelDay},
+    wind_level_night = #{windLevelNight}
+    where predict_date = #{predictDate}
+  </update>
+
 </mapper>

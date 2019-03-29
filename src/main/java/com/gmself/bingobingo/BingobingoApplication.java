@@ -21,17 +21,19 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
 @MapperScan(
-		basePackages = "com.gmself.bingobingo.module",
+		basePackages = "com.gmself.bingobingo",
 		sqlSessionFactoryRef = "sqlSessionFactory",
 		sqlSessionTemplateRef = "sqlSessionTemplate",
 		annotationClass = Repository.class
 )
 //@ImportResource(locations = {"classpath:beans.xml"})
 //@SpringBootApplication(exclude = DataSourceAutoConfiguration.class) //mybatis自动配置数据源
+@EnableTransactionManagement //允许使用事务处理
 @SpringBootApplication() //mybatis自动配置数据源
 public class BingobingoApplication extends SpringBootServletInitializer {
 

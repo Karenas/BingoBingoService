@@ -1,5 +1,6 @@
 package com.gmself.bingobingo.module.subject.controller;
 
+import com.gmself.bingobingo.function.weather.service.WeatherService;
 import com.gmself.bingobingo.module.subject.entity.User;
 import com.gmself.bingobingo.module.subject.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.nio.file.WatchService;
 
 @Controller
 @RequestMapping(value = "/m_subject", method = RequestMethod.POST)
