@@ -1,9 +1,12 @@
 package com.gmself.bingobingo.function.weather.service;
 
-import com.gmself.bingobingo.module.subject.entity.Weather;
+import com.gmself.bingobingo.function.weather.entity.HFWeatherForecast;
 
 public interface WeatherService {
 
-    void insertWeather(Weather weather);
+    void insertWeather(HFWeatherForecast weather);
+
+    void requestWeather(String location);
+
 
 }

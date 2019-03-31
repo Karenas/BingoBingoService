@@ -122,6 +122,19 @@
 			<version>1.3.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.heweather.sdk</groupId>
+			<artifactId>com.heweather.sdk</artifactId>
+			<scope>system</scope>
+			<version>1.6</version>
+			<systemPath>${project.basedir}/lib/sdk_HeWeather_Java_SDK_Pub_V1.6.jar</systemPath>
+		</dependency>
 
 	</dependencies>
 
@@ -178,6 +191,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<mainClass>com.gmself.bingobingo.BingobingoApplication</mainClass>
+					<includeSystemScope>true</includeSystemScope>
 				</configuration>
 			</plugin>
 		</plugins>

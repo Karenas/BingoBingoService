@@ -1,4 +1,4 @@
-package com.gmself.bingobingo.module.subject.service.Impl;
+package com.gmself.bingobingo.module.subject.service;
 
 import com.gmself.bingobingo.base.CommonDao;
 import com.gmself.bingobingo.module.subject.db.dao.UserMapper;
@@ -13,14 +13,15 @@ public class SubjectServiceImpl extends CommonDao implements SubjectService{
    @Autowired
    private UserMapper userMapper;
 
-   public String PunchUser(User user){
+   public String punchUser(User user){
 
       return "来自 SubjectServiceImpl 的返回值";
    }
 
    @Override
    public User getUserByPhoneNumber(String phoneNumber) {
-      return userMapper.selectUserByPhoneNumber(phoneNumber);
+//      return userMapper.selectUserByPhoneNumber(phoneNumber);
+      return null;
    }
 
 }

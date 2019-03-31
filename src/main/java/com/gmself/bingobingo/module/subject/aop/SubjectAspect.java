@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.*;
 @Aspect
 public class SubjectAspect {
 
-    @Pointcut("execution(* com.gmself.bingobingo.module.subject.service.Impl.SubjectServiceImpl.PunchUser(..))")
+    @Pointcut("execution(* com.gmself.bingobingo.module.subject.service.SubjectServiceImpl.PunchUser(..))")
     public void pointCut(){
     }
 

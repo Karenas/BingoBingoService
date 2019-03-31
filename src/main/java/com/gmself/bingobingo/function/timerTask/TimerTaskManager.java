@@ -1,18 +1,15 @@
 package com.gmself.bingobingo.function.timerTask;
 
-import com.gmself.bingobingo.function.weather.WeatherManager;
+import com.gmself.bingobingo.base.ApplicationContextProvider;
+import com.gmself.bingobingo.function.weather.service.Impl.WeatherServiceImpl;
+import com.gmself.bingobingo.function.weather.service.WeatherService;
 import com.gmself.bingobingo.util.date_tool.DateTools;
-import com.sun.javaws.Main;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import static com.gmself.bingobingo.util.date_tool.DateTools.getCurrentTime;
 
 public class TimerTaskManager {
 
@@ -22,9 +19,15 @@ public class TimerTaskManager {
         return instance;
     }
 
+    @Autowired
+    private WeatherService weatherService;
 
     public void run(){
-        int planningH = 6;
+        if (null == weatherService){
+            weatherService = ApplicationContextProvider.getBean(WeatherServiceImpl.class);
+        }
+
+        int planningH = 12;
         int planningM = 0;
 
         Calendar c = DateTools.getCurrentTime();
@@ -38,11 +41,12 @@ public class TimerTaskManager {
 
         Runnable runnable = new Runnable() {
             public void run() {
-                WeatherManager.getInstance().HttpJJ3("2");//北京
+
+                weatherService.requestWeather("CN101010100");
             }
         };
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(runnable, subMinT, 24 * 60, TimeUnit.MINUTES);
+        service.scheduleAtFixedRate(runnable, subMinT,  60, TimeUnit.MINUTES);
     }
 
 }
