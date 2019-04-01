@@ -16,6 +16,8 @@
     <result column="nick_name_" property="nickName" jdbcType="VARCHAR" />
     <result column="signature_" property="signature" jdbcType="VARCHAR" />
     <result column="sex_" property="sex" jdbcType="VARCHAR" />
+    <result column="device_id_" property="deviceId" jdbcType="VARCHAR" />
+    <result column="token_" property="token" jdbcType="VARCHAR" />
   </resultMap>
   <insert id="insert" parameterType="com.gmself.bingobingo.module.subject.entity.User" >
     <!--
@@ -25,11 +27,11 @@
     insert into user (id_, name_, phone_number_, 
       create_date_, replace_date_, last_location_id_, 
       email_, nick_name_, signature_, 
-      sex_)
+      sex_, device_id_, token_)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, 
       #{createDate,jdbcType=VARCHAR}, #{replaceDate,jdbcType=VARCHAR}, #{lastLocationId,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{signature,jdbcType=VARCHAR}, 
-      #{sex,jdbcType=VARCHAR})
+      #{sex,jdbcType=VARCHAR}, #{deviceId,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.gmself.bingobingo.module.subject.entity.User" >
     <!--
@@ -68,6 +70,12 @@
       <if test="sex != null" >
         sex_,
       </if>
+      <if test="deviceId != null" >
+        device_id_,
+      </if>
+      <if test="token != null" >
+        token_,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -100,34 +108,58 @@
       <if test="sex != null" >
         #{sex,jdbcType=VARCHAR},
       </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null" >
+        #{token,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
 
 
-  <!--<update id="updateForecast" parameterType="com.gmself.bingobingo.function.weather.entity.HFWeatherForecast">-->
-    <!--update user set-->
-    <!--update_ = #{update},-->
-    <!--sr_ = #{sr},-->
-    <!--ss_ = #{ss},-->
-    <!--mr_ = #{mr},-->
-    <!--ms_ = #{ms},-->
-    <!--tmp_max_ = #{tmp_max},-->
-    <!--tmp_min_ = #{tmp_min},-->
-    <!--cond_code_d_ = #{cond_code_d},-->
-    <!--cond_code_n_ = #{cond_code_n},-->
-    <!--cond_txt_d_ = #{cond_txt_d},-->
-    <!--cond_txt_n_ = #{cond_txt_n},-->
-    <!--wind_deg_ = #{wind_deg},-->
-    <!--wind_dir_ = #{wind_dir},-->
-    <!--wind_sc_ = #{wind_sc},-->
-    <!--wind_spd_ = #{wind_spd},-->
-    <!--hum_ = #{hum},-->
-    <!--pcpn_ = #{pcpn},-->
-    <!--pop_ = #{pop},-->
-    <!--pres_ = #{pres},-->
-    <!--uv_index_ = #{uv_index},-->
-    <!--vis_ = #{vis}-->
-    <!--where date_ = #{date} and city_id_ = #{cityID}-->
-  <!--</update>-->
+  <update id="updateByPhoneNumber" parameterType="com.gmself.bingobingo.module.subject.entity.User">
+    update user set
+    name_ = #{name},
+    create_date_ = #{createDate},
+    replace_date_ = #{replaceDate},
+    last_location_id_ = #{lastLocationId},
+    email_ = #{email},
+    device_id_ = #{deviceId},
+    token_ = #{token}
+    where phone_number_ = #{phoneNumber}
+  </update>
+
+  <update id="updateByDeviceID" parameterType="com.gmself.bingobingo.module.subject.entity.User">
+    update user set
+    name_ = #{name},
+    phone_number_ = #{phoneNumber},
+    create_date_ = #{createDate},
+    replace_date_ = #{replaceDate},
+    last_location_id_ = #{lastLocationId},
+    email_ = #{email},
+    token_ = #{token}
+    where device_id_ = #{deviceId}
+  </update>
+
+  <select id="selectPhoneNumberByDeviceID" parameterType="java.lang.String" resultType="com.gmself.bingobingo.module.subject.entity.User">
+    select phone_number_ from user WHERE device_id_ = #{deviceId};
+  </select>
+
+  <select id="selectDeviceIDByPhoneNumber" parameterType="java.lang.String" resultType="com.gmself.bingobingo.module.subject.entity.User">
+    select device_id_ from user WHERE phone_number_ = #{phoneNumber};
+  </select>
+
+  <select id="selectTokenByDeviceID" parameterType="java.lang.String" resultType="java.lang.String">
+    select token_ from user WHERE device_id_ = #{deviceId};
+  </select>
+
+  <select id="selectByPhoneNumber" parameterType="java.lang.String" resultType="java.lang.String">
+    select * from user WHERE phone_number_ = #{phoneNumber};
+  </select>
+
+  <select id="selectByDeviceID" parameterType="java.lang.String" resultType="java.lang.String">
+    select * from user WHERE device_id_ = #{deviceId};
+  </select>
 
 </mapper>

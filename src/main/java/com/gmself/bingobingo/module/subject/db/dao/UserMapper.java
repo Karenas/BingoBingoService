@@ -20,4 +20,18 @@ public interface UserMapper {
      * @mbggenerated
      */
     int insertSelective(User record);
+
+    int updateByPhoneNumber(User user);
+
+    int updateByDeviceID(User user);
+
+    User selectByDeviceID(String deviceID);
+
+    User selectByPhoneNumber(String phoneNumber);
+
+    String selectPhoneNumberByDeviceID(String deviceID);
+
+    String selectDeviceIDByPhoneNumber(String phoneNumber);
+
+    String selectTokenByDeviceID(String deviceID);
 }

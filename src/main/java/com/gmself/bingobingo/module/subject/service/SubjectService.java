@@ -5,7 +5,7 @@ import com.gmself.bingobingo.module.subject.entity.User;
 
 public interface SubjectService {
 
-    String punchUser(User user);
+    int punchUser(User user);
 
     User getUserByPhoneNumber(String phoneNumber);
 
