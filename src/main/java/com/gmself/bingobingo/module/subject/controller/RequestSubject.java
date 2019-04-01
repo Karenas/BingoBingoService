@@ -1,6 +1,7 @@
 package com.gmself.bingobingo.module.subject.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.gmself.bingobingo.function.statistics.service.StatisticsService;
 import com.gmself.bingobingo.function.weather.service.WeatherService;
 import com.gmself.bingobingo.module.subject.constant.CheckCode_subject;
@@ -45,6 +46,11 @@ public class RequestSubject {
     @PostMapping(value = "/punch")
     public void doPunchUser(HttpServletRequest request, HttpServletResponse response, @RequestBody User user)
     {
+        user = new User();
+        user.setDeviceId("333333333");
+        user.setDeviceId("dddddddddddddd");
+        user.setPhoneNumber("132222222222");
+
         RespMessage respMessage = new RespMessage();
         RespPunch respPunch = null;
         CheckCode_subject code = user.checkParam();
@@ -71,7 +77,7 @@ public class RequestSubject {
 
         if (null == respPunch){
             respMessage.setProcessResult(true);
-            respPunch = new RespPunch(RespCode_punch.SUCCESS, "成功");
+            respPunch = new RespPunch(RespCode_punch.SUCCESS, "打卡接口数据处理成功 统计表已更新 用户记录表已更新");
             statisticsService.recordUserLocation(user.getLastLocationId());
         }
         respMessage.setResult(respPunch);
@@ -83,10 +89,10 @@ public class RequestSubject {
         if (!result.checkValid()){
             return;
         }
-        String resp = JSON.toJSONString(result);
+        String resp = JSON.toJSONString(result, SerializerFeature.WriteMapNullValue);
 
         try {
-            response.setContentType("application/json");
+            response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(resp);
         } catch (Exception e) {
             e.printStackTrace();

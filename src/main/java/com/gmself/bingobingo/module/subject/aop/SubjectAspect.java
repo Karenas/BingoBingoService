@@ -18,18 +18,17 @@ public class SubjectAspect {
     }
 
     @Around(value = "pointCut() && args(user)")
-    public String around(ProceedingJoinPoint pjp, User user) throws  Throwable{
+    public int around(ProceedingJoinPoint pjp, User user) throws  Throwable{
         if (checkUser(user)){
             pjp.proceed();
-            return "aop -- true";
+            return 1111;
         }
-        return "aop -- false";
+        return 2222;
     }
 
     @After("pointCut()")
     public void after(){
         System.out.println("AOP --- after() ");
-
     }
 
     @AfterReturning("pointCut()")

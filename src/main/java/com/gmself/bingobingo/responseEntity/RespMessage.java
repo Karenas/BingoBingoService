@@ -22,6 +22,7 @@ public class RespMessage <T extends Resp_result>{
         String statusRR = "N";
         if (isSuccess){
             statusRR = "Y";
+            status.setRW(Resp_processWrongType.GENERAL.getValue());
             valid = true;
         }
         status.setRR(statusRR);
@@ -45,5 +46,15 @@ public class RespMessage <T extends Resp_result>{
         return valid;
     }
 
+    public Resp_status getStatus() {
+        return status;
+    }
 
+    public void setStatus(Resp_status status) {
+        this.status = status;
+    }
+
+    public T getResult() {
+        return result;
+    }
 }

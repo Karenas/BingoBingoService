@@ -18,7 +18,7 @@ public class SubjectServiceImpl extends CommonDao implements SubjectService{
    public int punchUser(User user){
 
       int r = userMapper.updateByPhoneNumber(user);
-      if (r <= 1){
+      if (r <= 0){
          r = userMapper.insert(user);
       }
 
