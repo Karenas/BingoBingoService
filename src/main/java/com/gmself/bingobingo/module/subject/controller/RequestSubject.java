@@ -85,6 +85,8 @@ public class RequestSubject {
         writeResult(response, respMessage);
     }
 
+//    public void
+
     private void writeResult(HttpServletResponse response,  RespMessage result){
         if (!result.checkValid()){
             return;

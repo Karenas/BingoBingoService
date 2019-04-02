@@ -56,4 +56,16 @@
       </if>
     </trim>
   </insert>
+
+  <select id="selectByLocationID" parameterType="java.lang.String" resultType="com.gmself.bingobingo.function.statistics.entity.UserLocationStatistics">
+    select * from user_location_statistics WHERE location_id_ = #{locationId};
+  </select>
+
+  <update id="updateByLocationID" parameterType="com.gmself.bingobingo.function.statistics.entity.UserLocationStatistics">
+    update user_location_statistics set
+    total_count_ = #{totalCount},
+    valid_count_ = #{validCount}
+    where location_id_ = #{locationId}
+  </update>
+
 </mapper>

@@ -20,4 +20,8 @@ public interface UserLocationStatisticsMapper {
      * @mbggenerated
      */
     int insertSelective(UserLocationStatistics record);
+
+    UserLocationStatistics selectByLocationID(String locationId);
+
+    int updateByLocationID(UserLocationStatistics record);
 }

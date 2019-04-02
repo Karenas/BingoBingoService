@@ -1,6 +1,7 @@
 package com.gmself.bingobingo.function.statistics.service;
 
 import com.gmself.bingobingo.function.statistics.UserLocationStatisticsMapper;
+import com.gmself.bingobingo.function.statistics.entity.UserLocationStatistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,18 @@ public class StatisticsServiceImpl implements StatisticsService {
     @Override
     @Async //异步
     public void recordUserLocation(String locationId) {
-        //TODO 对使用地点统计表中做出修改
+
+        UserLocationStatistics statistics = userLocationStatisticsMapper.selectByLocationID(locationId);
+        if (null == statistics){
+            statistics = new UserLocationStatistics();
+            statistics.setLocationId(locationId);
+            statistics.setTotalCount(1);
+            statistics.setValidCount(1);
+            userLocationStatisticsMapper.insertSelective(statistics);
+        }else {
+            statistics.setTotalCount(statistics.getTotalCount());
+            statistics.setValidCount(statistics.getValidCount());
+            userLocationStatisticsMapper.updateByLocationID(statistics);
+        }
     }
 }
