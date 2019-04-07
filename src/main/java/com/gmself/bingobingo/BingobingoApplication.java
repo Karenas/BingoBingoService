@@ -27,7 +27,7 @@ public class BingobingoApplication extends SpringBootServletInitializer {
 
 		SpringApplication.run(BingobingoApplication.class, args);
 
-		TimerTaskManager.getInstance().run();
+		TimerTaskManager.getInstance().runWeatherTask();
 	}
 
 	@Override//为了打包springboot项目

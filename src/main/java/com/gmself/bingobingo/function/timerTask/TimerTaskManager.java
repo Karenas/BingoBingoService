@@ -1,12 +1,16 @@
 package com.gmself.bingobingo.function.timerTask;
 
 import com.gmself.bingobingo.base.ApplicationContextProvider;
-import com.gmself.bingobingo.function.weather.service.Impl.WeatherServiceImpl;
+import com.gmself.bingobingo.function.statistics.entity.UserLocationStatistics;
+import com.gmself.bingobingo.function.statistics.service.StatisticsService;
+import com.gmself.bingobingo.function.statistics.service.StatisticsServiceImpl;
+import com.gmself.bingobingo.function.weather.service.WeatherServiceImpl;
 import com.gmself.bingobingo.function.weather.service.WeatherService;
 import com.gmself.bingobingo.util.date_tool.DateTools;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -22,9 +26,18 @@ public class TimerTaskManager {
     @Autowired
     private WeatherService weatherService;
 
-    public void run(){
+    @Autowired
+    private StatisticsService statisticsService;
+
+    private boolean isReqWeatherForecast = false;
+
+    public void runWeatherTask(){
         if (null == weatherService){
             weatherService = ApplicationContextProvider.getBean(WeatherServiceImpl.class);
+        }
+
+        if (null == statisticsService){
+            statisticsService = new StatisticsServiceImpl();
         }
 
         int planningH = 12;
@@ -39,14 +52,24 @@ public class TimerTaskManager {
 
         int subMinT = subH > 0? subH*60 + subM : (24+subH)*60 + subM;
 
-        Runnable runnable = new Runnable() {
-            public void run() {
 
-                weatherService.requestWeather("CN101010100");
+
+        Runnable runnable = () -> {
+            List<UserLocationStatistics> locationStatistics = statisticsService.getAllLocationStatistics();
+            if (null != locationStatistics && locationStatistics.size() > 0){
+                for (UserLocationStatistics loc : locationStatistics) {
+                    weatherService.requestWeatherNow(loc.getLocationId());
+
+                    if (isReqWeatherForecast){
+                        weatherService.requestWeatherForecast(loc.getLocationId());
+                    }
+                }
             }
+
+            isReqWeatherForecast = !isReqWeatherForecast;
         };
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(runnable, subMinT,  60, TimeUnit.MINUTES);
+        service.scheduleAtFixedRate(runnable, 0,  30, TimeUnit.MINUTES);
     }
 
 }

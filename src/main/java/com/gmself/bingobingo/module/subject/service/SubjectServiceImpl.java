@@ -1,6 +1,8 @@
 package com.gmself.bingobingo.module.subject.service;
 
 import com.gmself.bingobingo.base.CommonDao;
+import com.gmself.bingobingo.function.weather.HfWeatherNowMapper;
+import com.gmself.bingobingo.function.weather.entity.HfWeatherNow;
 import com.gmself.bingobingo.module.subject.constant.CheckCode_subject;
 import com.gmself.bingobingo.module.subject.constant.RespCode_punch;
 import com.gmself.bingobingo.module.subject.db.dao.UserMapper;
@@ -15,6 +17,9 @@ public class SubjectServiceImpl extends CommonDao implements SubjectService{
    @Autowired
    private UserMapper userMapper;
 
+   @Autowired
+   private HfWeatherNowMapper hfWeatherNowMapper;
+
    public int punchUser(User user){
 
       int r = userMapper.updateByPhoneNumber(user);
@@ -27,7 +32,11 @@ public class SubjectServiceImpl extends CommonDao implements SubjectService{
       }else {
          return RespCode_punch.DATABASE_FAIL;
       }
-//      return RespCode_punch.SUCCESS;
+   }
+
+   @Override
+   public HfWeatherNow getWeatherNow(String cityID) {
+      return hfWeatherNowMapper.selectNowByCityID(cityID);
    }
 
    @Override

@@ -4,7 +4,7 @@ package com.gmself.bingobingo.function.weather;
 
 import com.gmself.bingobingo.base.ApplicationContextProvider;
 import com.gmself.bingobingo.function.weather.entity.HFWeatherForecast;
-import com.gmself.bingobingo.function.weather.service.Impl.WeatherServiceImpl;
+import com.gmself.bingobingo.function.weather.service.WeatherServiceImpl;
 import com.gmself.bingobingo.function.weather.service.WeatherService;
 import com.heweather.sdk.api.HeConfig;
 import com.heweather.sdk.api.HeWeather;
@@ -34,7 +34,26 @@ public class HeFengWeatherHandler {
     @Autowired
     private WeatherService weatherService;
 
-    public void requestWeather(String location){
+    public void requestWeatherForecast(String location){
+        if (null == weatherService){
+            weatherService = ApplicationContextProvider.getBean(WeatherServiceImpl.class);
+        }
+
+        HeWeather.s6Forecast(location, Lang.CHINESE_SIMPLIFIED, Unit.METRIC, new Callback<List<Forecast>>() {
+            @Override
+            public void onSuccess(List<Forecast> forecasts) {
+                forecastList2WeatherDB(forecasts);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+
+            }
+        });
+
+    }
+
+    public void requestWeatherNow(String location){
         if (null == weatherService){
             weatherService = ApplicationContextProvider.getBean(WeatherServiceImpl.class);
         }
@@ -49,22 +68,9 @@ public class HeFengWeatherHandler {
 //         * @param unit     (选填)单位选择，公制（m）或英制（i），默认为公制单位
 //         * @param callback 网络访问回调接口
 //         */
-//        HeWeather.s6Now(location, Lang.CHINESE_SIMPLIFIED, Unit.METRIC, new Callback<List<Now>>() {
-//            @Override
-//            public void onSuccess(List<Now> nows) {
-//            }
-//
-//            @Override
-//            public void onError(Throwable throwable) {
-//
-//            }
-//        });
-
-
-        HeWeather.s6Forecast(location, Lang.CHINESE_SIMPLIFIED, Unit.METRIC, new Callback<List<Forecast>>() {
+        HeWeather.s6Now(location, Lang.CHINESE_SIMPLIFIED, Unit.METRIC, new Callback<List<Now>>() {
             @Override
-            public void onSuccess(List<Forecast> forecasts) {
-                forecastList2WeatherDB(forecasts);
+            public void onSuccess(List<Now> nows) {
             }
 
             @Override
@@ -72,7 +78,6 @@ public class HeFengWeatherHandler {
 
             }
         });
-
     }
 
     @Transactional

@@ -3,10 +3,13 @@ package com.gmself.bingobingo.module.subject.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.gmself.bingobingo.function.statistics.service.StatisticsService;
+import com.gmself.bingobingo.function.weather.entity.HfWeatherNow;
 import com.gmself.bingobingo.function.weather.service.WeatherService;
 import com.gmself.bingobingo.module.subject.constant.CheckCode_subject;
+import com.gmself.bingobingo.module.subject.constant.RespCode_getWeatherNow;
 import com.gmself.bingobingo.module.subject.constant.RespCode_punch;
 import com.gmself.bingobingo.module.subject.entity.User;
+import com.gmself.bingobingo.module.subject.entity.resp.RespGetWeatherNow;
 import com.gmself.bingobingo.module.subject.entity.resp.RespPunch;
 import com.gmself.bingobingo.module.subject.service.SubjectService;
 import com.gmself.bingobingo.responseEntity.RespMessage;
@@ -33,23 +36,41 @@ public class RequestSubject {
     @Autowired
     private StatisticsService statisticsService = null;
 
-    @PostMapping(value = "/requestWeather")
-    public void requestWeather(HttpServletRequest request, HttpServletResponse response, @RequestBody User user)
+    @PostMapping(value = "/requestWeatherNow")
+    public void requestWeather(HttpServletRequest request, HttpServletResponse response, @RequestBody String cityID)
     {
+        RespMessage respMessage = new RespMessage();
+        RespGetWeatherNow respGetWeatherNow = null;
+        if (StringUtils.isEmpty(cityID)){
+            respGetWeatherNow = new RespGetWeatherNow(RespCode_getWeatherNow.NO_CITY_ID, "cityId为空");
+        }
 
+        if (null == respGetWeatherNow){
+            HfWeatherNow weatherNow = subjectService.getWeatherNow(cityID);
+            if (weatherNow == null){
+                respGetWeatherNow = new RespGetWeatherNow(RespCode_getWeatherNow.NO_DATA, "未获取到相关数据，请稍后再试");
+            }else {
+                respGetWeatherNow.setWeatherNow(weatherNow);
+                respGetWeatherNow = new RespGetWeatherNow(RespCode_getWeatherNow.SUCCESS, "数据获取成功");
+            }
+        }
+
+        respMessage.setResult(respGetWeatherNow);
+
+        writeResult(response, respMessage);
     }
 
 
     /**
-     * 用户打开
+     * 用户打卡
      * */
     @PostMapping(value = "/punch")
     public void doPunchUser(HttpServletRequest request, HttpServletResponse response, @RequestBody User user)
     {
-        user = new User();
-        user.setDeviceId("333333333");
-        user.setDeviceId("dddddddddddddd");
-        user.setPhoneNumber("132222222222");
+//        user = new User();
+//        user.setDeviceId("333333333");
+//        user.setDeviceId("dddddddddddddd");
+//        user.setPhoneNumber("132222222222");
 
         RespMessage respMessage = new RespMessage();
         RespPunch respPunch = null;

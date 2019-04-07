@@ -3,6 +3,8 @@ package com.gmself.bingobingo.function.statistics;
 import com.gmself.bingobingo.function.statistics.entity.UserLocationStatistics;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UserLocationStatisticsMapper {
     /**
@@ -22,6 +24,8 @@ public interface UserLocationStatisticsMapper {
     int insertSelective(UserLocationStatistics record);
 
     UserLocationStatistics selectByLocationID(String locationId);
+
+    List<UserLocationStatistics> selectAll();
 
     int updateByLocationID(UserLocationStatistics record);
 }

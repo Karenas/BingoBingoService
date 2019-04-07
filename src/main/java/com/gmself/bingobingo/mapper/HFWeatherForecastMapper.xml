@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.gmself.bingobingo.function.weather.HFWeatherMapper" >
+<mapper namespace="com.gmself.bingobingo.function.weather.HFWeatherForecastMapper" >
   <resultMap id="BaseResultMap" type="com.gmself.bingobingo.function.weather.entity.HFWeatherForecast" >
     <!--
       WARNING - @mbggenerated
@@ -90,7 +90,7 @@
 
 
   <select id="selectByPredictDate" parameterType="java.lang.String" resultType="com.gmself.bingobingo.function.weather.entity.HFWeatherForecast">
-    select * from weather WHERE predict_date = #{predictDate};
+    select * from hf_weather_forecast WHERE predict_date = #{predictDate};
   </select>
 
   <!--<update id="update" parameterType="com.gmself.bingobingo.function.weather.entity.HFWeather">-->

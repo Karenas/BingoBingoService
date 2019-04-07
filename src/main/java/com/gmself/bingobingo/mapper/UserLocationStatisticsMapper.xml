@@ -61,6 +61,10 @@
     select * from user_location_statistics WHERE location_id_ = #{locationId};
   </select>
 
+  <select id="selectAll" resultType="com.gmself.bingobingo.function.statistics.entity.UserLocationStatistics">
+    select * from user_location_statistics;
+  </select>
+
   <update id="updateByLocationID" parameterType="com.gmself.bingobingo.function.statistics.entity.UserLocationStatistics">
     update user_location_statistics set
     total_count_ = #{totalCount},

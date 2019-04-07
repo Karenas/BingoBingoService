@@ -1,13 +1,17 @@
 package com.gmself.bingobingo.function.statistics.service;
 
+import com.gmself.bingobingo.base.ApplicationContextProvider;
+import com.gmself.bingobingo.base.CommonDao;
 import com.gmself.bingobingo.function.statistics.UserLocationStatisticsMapper;
 import com.gmself.bingobingo.function.statistics.entity.UserLocationStatistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class StatisticsServiceImpl implements StatisticsService {
+public class StatisticsServiceImpl extends CommonDao implements StatisticsService {
 
     @Autowired
     private UserLocationStatisticsMapper userLocationStatisticsMapper;
@@ -28,5 +32,13 @@ public class StatisticsServiceImpl implements StatisticsService {
             statistics.setValidCount(statistics.getValidCount());
             userLocationStatisticsMapper.updateByLocationID(statistics);
         }
+    }
+
+    public List<UserLocationStatistics> getAllLocationStatistics(){
+        if (null == userLocationStatisticsMapper){
+            userLocationStatisticsMapper = ApplicationContextProvider.getBean(UserLocationStatisticsMapper.class);
+        }
+
+        return userLocationStatisticsMapper.selectAll();
     }
 }
