@@ -11,6 +11,7 @@
     <result column="total_count_" property="totalCount" jdbcType="INTEGER" />
     <result column="valid_count_" property="validCount" jdbcType="INTEGER" />
   </resultMap>
+
   <insert id="insert" parameterType="com.gmself.bingobingo.function.statistics.entity.UserLocationStatistics" >
     <!--
       WARNING - @mbggenerated
@@ -57,11 +58,11 @@
     </trim>
   </insert>
 
-  <select id="selectByLocationID" parameterType="java.lang.String" resultType="com.gmself.bingobingo.function.statistics.entity.UserLocationStatistics">
+  <select id="selectByLocationID" parameterType="java.lang.String" resultMap="BaseResultMap">
     select * from user_location_statistics WHERE location_id_ = #{locationId};
   </select>
 
-  <select id="selectAll" resultType="com.gmself.bingobingo.function.statistics.entity.UserLocationStatistics">
+  <select id="selectAll" resultMap="BaseResultMap">
     select * from user_location_statistics;
   </select>
 

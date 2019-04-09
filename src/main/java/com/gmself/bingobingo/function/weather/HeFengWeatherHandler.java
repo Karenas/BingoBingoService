@@ -4,6 +4,7 @@ package com.gmself.bingobingo.function.weather;
 
 import com.gmself.bingobingo.base.ApplicationContextProvider;
 import com.gmself.bingobingo.function.weather.entity.HFWeatherForecast;
+import com.gmself.bingobingo.function.weather.entity.HfWeatherNow;
 import com.gmself.bingobingo.function.weather.service.WeatherServiceImpl;
 import com.gmself.bingobingo.function.weather.service.WeatherService;
 import com.heweather.sdk.api.HeConfig;
@@ -13,6 +14,7 @@ import com.heweather.sdk.bean.Unit;
 import com.heweather.sdk.bean.weather.forecast.Forecast;
 import com.heweather.sdk.bean.weather.forecast.ForecastBase;
 import com.heweather.sdk.bean.weather.now.Now;
+import com.heweather.sdk.bean.weather.now.NowBase;
 import com.heweather.sdk.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,6 +73,7 @@ public class HeFengWeatherHandler {
         HeWeather.s6Now(location, Lang.CHINESE_SIMPLIFIED, Unit.METRIC, new Callback<List<Now>>() {
             @Override
             public void onSuccess(List<Now> nows) {
+                nowList2WeatherDB(nows);
             }
 
             @Override
@@ -78,6 +81,44 @@ public class HeFengWeatherHandler {
 
             }
         });
+    }
+
+    @Transactional
+    public void nowList2WeatherDB(List<Now> nows){
+        if (null == nows){
+            return;
+        }
+        HfWeatherNow weather = null;
+        for (Now now : nows) {
+            now2Weather(weather, now);
+        }
+    }
+
+    private void now2Weather(HfWeatherNow weather, Now now){
+        if (now == null){
+            return;
+        }
+        String cityID = now.getBasic().getCid();
+        String update = now.getUpdate().getLoc();
+
+        weather = new HfWeatherNow(cityID, update);
+        weather.setCloud(now.getNow().getCloud());
+        weather.setCondCode(now.getNow().getCond_code());
+        weather.setCondTxt(now.getNow().getCond_txt());
+        weather.setFl(now.getNow().getFl());
+        weather.setHum(now.getNow().getHum());
+        weather.setPcpn(now.getNow().getPcpn());
+        weather.setTmp(now.getNow().getTmp());
+        weather.setPres(now.getNow().getPres());
+        weather.setWindDeg(now.getNow().getWind_deg());
+        weather.setWindDir(now.getNow().getWind_dir());
+        weather.setWindSc(now.getNow().getWind_sc());
+        weather.setWindSpd(now.getNow().getWind_spd());
+        weather.setVis(now.getNow().getVis());
+
+        weatherService.insertWeather(weather);
+
+
     }
 
     @Transactional

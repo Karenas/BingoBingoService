@@ -52,8 +52,6 @@ public class TimerTaskManager {
 
         int subMinT = subH > 0? subH*60 + subM : (24+subH)*60 + subM;
 
-
-
         Runnable runnable = () -> {
             List<UserLocationStatistics> locationStatistics = statisticsService.getAllLocationStatistics();
             if (null != locationStatistics && locationStatistics.size() > 0){
@@ -69,7 +67,7 @@ public class TimerTaskManager {
             isReqWeatherForecast = !isReqWeatherForecast;
         };
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(runnable, 0,  30, TimeUnit.MINUTES);
+        service.scheduleAtFixedRate(runnable, subMinT,  30, TimeUnit.MINUTES);
     }
 
 }
