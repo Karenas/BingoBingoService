@@ -38,7 +38,7 @@ public class HeFengWeatherHandler {
 
     public void requestWeatherForecast(String location){
         if (null == weatherService){
-            weatherService = ApplicationContextProvider.getBean(WeatherServiceImpl.class);
+            weatherService = new WeatherServiceImpl();
         }
 
         HeWeather.s6Forecast(location, Lang.CHINESE_SIMPLIFIED, Unit.METRIC, new Callback<List<Forecast>>() {

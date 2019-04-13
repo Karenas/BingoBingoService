@@ -149,7 +149,7 @@
     </trim>
   </insert>
 
-  <select id="selectNowByCityID" parameterType="java.lang.String" resultType="com.gmself.bingobingo.function.weather.entity.HfWeatherNow">
+  <select id="selectNowByCityID" parameterType="java.lang.String" resultMap="BaseResultMap">
     select * from hf_weather_now WHERE city_id_ = #{cityId};
   </select>
 

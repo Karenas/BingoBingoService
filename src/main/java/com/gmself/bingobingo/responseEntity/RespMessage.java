@@ -22,7 +22,7 @@ public class RespMessage <T extends Resp_result>{
         String statusRR = "N";
         if (isSuccess){
             statusRR = "Y";
-            status.setRW(Resp_processWrongType.GENERAL.getValue());
+            status.setRW(Resp_processWrongType.NULL.getValue());
             valid = true;
         }
         status.setRR(statusRR);

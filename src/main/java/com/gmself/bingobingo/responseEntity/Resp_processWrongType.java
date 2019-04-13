@@ -1,6 +1,7 @@
 package com.gmself.bingobingo.responseEntity;
 
 public enum Resp_processWrongType {
+    NULL("N"),
 
     GENERAL("G"),
 

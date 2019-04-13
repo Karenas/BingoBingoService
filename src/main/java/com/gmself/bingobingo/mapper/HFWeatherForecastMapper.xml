@@ -89,8 +89,12 @@
   </insert>
 
 
-  <select id="selectByPredictDate" parameterType="java.lang.String" resultType="com.gmself.bingobingo.function.weather.entity.HFWeatherForecast">
-    select * from hf_weather_forecast WHERE predict_date = #{predictDate};
+  <!--<select id="selectByPredictDate" parameterType="java.lang.String" resultMap="BaseResultMap">-->
+    <!--select * from hf_weather_forecast WHERE predict_date = #{predictDate};-->
+  <!--</select>-->
+
+  <select id="selectByCityID" parameterType="hashMap" resultMap="BaseResultMap">
+    select * from hf_weather_forecast WHERE city_id_ = #{cityID} and date_ >= #{date};
   </select>
 
   <!--<update id="update" parameterType="com.gmself.bingobingo.function.weather.entity.HFWeather">-->

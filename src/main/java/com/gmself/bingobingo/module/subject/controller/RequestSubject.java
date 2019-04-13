@@ -1,14 +1,18 @@
 package com.gmself.bingobingo.module.subject.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.gmself.bingobingo.function.statistics.service.StatisticsService;
+import com.gmself.bingobingo.function.weather.entity.HFWeatherForecast;
 import com.gmself.bingobingo.function.weather.entity.HfWeatherNow;
 import com.gmself.bingobingo.function.weather.service.WeatherService;
 import com.gmself.bingobingo.module.subject.constant.CheckCode_subject;
+import com.gmself.bingobingo.module.subject.constant.RespCode_getWeatherForecast;
 import com.gmself.bingobingo.module.subject.constant.RespCode_getWeatherNow;
 import com.gmself.bingobingo.module.subject.constant.RespCode_punch;
 import com.gmself.bingobingo.module.subject.entity.User;
+import com.gmself.bingobingo.module.subject.entity.resp.RespGetWeatherForecast;
 import com.gmself.bingobingo.module.subject.entity.resp.RespGetWeatherNow;
 import com.gmself.bingobingo.module.subject.entity.resp.RespPunch;
 import com.gmself.bingobingo.module.subject.service.SubjectService;
@@ -25,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/m_subject", method = RequestMethod.POST)
@@ -36,23 +41,71 @@ public class RequestSubject {
     @Autowired
     private StatisticsService statisticsService = null;
 
-    @PostMapping(value = "/requestWeatherNow")
-    public void requestWeather(HttpServletRequest request, HttpServletResponse response, @RequestBody String cityID)
+    @Autowired
+    private WeatherService weatherService = null;
+
+    @PostMapping(value = "/requestWeatherForecast")
+    public void requestWeatherForecast(HttpServletRequest request, HttpServletResponse response, @RequestBody String jsonParam)
     {
+        String cityID = JSON.parseObject(jsonParam).getString("cityID");
+        RespMessage respMessage = new RespMessage();
+        RespGetWeatherForecast respGetWeatherForecast = null;
+        if (StringUtils.isEmpty(cityID)){
+            respGetWeatherForecast = new RespGetWeatherForecast(RespCode_getWeatherForecast.NO_CITY_ID, "cityID为空");
+        }
+
+        List<HFWeatherForecast> weatherForecasts = null;
+
+        if (null == respGetWeatherForecast){
+            weatherForecasts = subjectService.getWeatherForecast(cityID);
+            if (weatherForecasts == null || weatherForecasts.size() == 0){
+                respMessage.setProcessResult(false);
+                respMessage.setProcessWrong(Resp_processWrongType.GENERAL);
+                respGetWeatherForecast = new RespGetWeatherForecast(RespCode_getWeatherForecast.NO_DATA, "未获取到相关数据，请稍后再试");
+                statisticsService.recordUserLocation(cityID);
+                weatherService.updateWeatherAll(cityID);
+            }
+        }
+
+        if (null == respGetWeatherForecast){
+            respMessage.setProcessResult(true);
+            respGetWeatherForecast = new RespGetWeatherForecast(RespCode_getWeatherNow.SUCCESS, "数据获取成功");
+            respGetWeatherForecast.setWeatherForecasts(weatherForecasts);
+        }
+
+        respMessage.setResult(respGetWeatherForecast);
+
+        writeResult(response, respMessage);
+    }
+
+    @PostMapping(value = "/requestWeatherNow")
+    public void requestWeatherNow(HttpServletRequest request, HttpServletResponse response, @RequestBody String jsonParam)
+    {
+
+        String cityID = JSON.parseObject(jsonParam).getString("cityID");
         RespMessage respMessage = new RespMessage();
         RespGetWeatherNow respGetWeatherNow = null;
         if (StringUtils.isEmpty(cityID)){
-            respGetWeatherNow = new RespGetWeatherNow(RespCode_getWeatherNow.NO_CITY_ID, "cityId为空");
+            respGetWeatherNow = new RespGetWeatherNow(RespCode_getWeatherNow.NO_CITY_ID, "cityID为空");
+        }
+
+        HfWeatherNow weatherNow = null;
+
+        if (null == respGetWeatherNow){
+            weatherNow = subjectService.getWeatherNow(cityID);
+            if (weatherNow == null){
+                respMessage.setProcessResult(false);
+                respMessage.setProcessWrong(Resp_processWrongType.GENERAL);
+                respGetWeatherNow = new RespGetWeatherNow(RespCode_getWeatherNow.NO_DATA, "未获取到相关数据，请稍后再试");
+                statisticsService.recordUserLocation(cityID);
+                weatherService.updateWeatherAll(cityID);
+            }
         }
 
         if (null == respGetWeatherNow){
-            HfWeatherNow weatherNow = subjectService.getWeatherNow(cityID);
-            if (weatherNow == null){
-                respGetWeatherNow = new RespGetWeatherNow(RespCode_getWeatherNow.NO_DATA, "未获取到相关数据，请稍后再试");
-            }else {
-                respGetWeatherNow.setWeatherNow(weatherNow);
-                respGetWeatherNow = new RespGetWeatherNow(RespCode_getWeatherNow.SUCCESS, "数据获取成功");
-            }
+            respMessage.setProcessResult(true);
+            respGetWeatherNow = new RespGetWeatherNow(RespCode_getWeatherNow.SUCCESS, "数据获取成功");
+            respGetWeatherNow.setWeatherNow(weatherNow);
         }
 
         respMessage.setResult(respGetWeatherNow);
@@ -67,11 +120,6 @@ public class RequestSubject {
     @PostMapping(value = "/punch")
     public void doPunchUser(HttpServletRequest request, HttpServletResponse response, @RequestBody User user)
     {
-//        user = new User();
-//        user.setDeviceId("333333333");
-//        user.setDeviceId("dddddddddddddd");
-//        user.setPhoneNumber("132222222222");
-
         RespMessage respMessage = new RespMessage();
         RespPunch respPunch = null;
         CheckCode_subject code = user.checkParam();

@@ -12,4 +12,6 @@ public interface WeatherService {
     void requestWeatherNow(String location);
 
     void insertWeather(HfWeatherNow weather);
+
+    void updateWeatherAll(String location);
 }

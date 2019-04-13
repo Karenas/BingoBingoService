@@ -33,14 +33,14 @@ public class TimerTaskManager {
 
     public void runWeatherTask(){
         if (null == weatherService){
-            weatherService = ApplicationContextProvider.getBean(WeatherServiceImpl.class);
+            weatherService = new WeatherServiceImpl();
         }
 
         if (null == statisticsService){
             statisticsService = new StatisticsServiceImpl();
         }
 
-        int planningH = 12;
+        int planningH = 6;
         int planningM = 0;
 
         Calendar c = DateTools.getCurrentTime();
@@ -67,7 +67,7 @@ public class TimerTaskManager {
             isReqWeatherForecast = !isReqWeatherForecast;
         };
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(runnable, subMinT,  30, TimeUnit.MINUTES);
+        service.scheduleAtFixedRate(runnable, subMinT,  60, TimeUnit.MINUTES);
     }
 
 }

@@ -10,7 +10,9 @@ import com.gmself.bingobingo.function.weather.entity.HFWeatherForecast;
 import com.gmself.bingobingo.function.weather.entity.HfWeatherNow;
 import com.gmself.bingobingo.function.weather.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class WeatherServiceImpl extends CommonDao implements WeatherService {
@@ -50,6 +52,13 @@ public class WeatherServiceImpl extends CommonDao implements WeatherService {
         if (r<=0){
             nowMapper.insertNow(weather);
         }
+    }
+
+    @Async
+    @Override
+    public void updateWeatherAll(String location) {
+        requestWeatherForecast(location);
+        requestWeatherNow(location);
     }
 
 

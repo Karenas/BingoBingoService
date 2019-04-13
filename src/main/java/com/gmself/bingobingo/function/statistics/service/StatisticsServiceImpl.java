@@ -28,8 +28,8 @@ public class StatisticsServiceImpl extends CommonDao implements StatisticsServic
             statistics.setValidCount(1);
             userLocationStatisticsMapper.insertSelective(statistics);
         }else {
-            statistics.setTotalCount(statistics.getTotalCount());
-            statistics.setValidCount(statistics.getValidCount());
+            statistics.setTotalCount(statistics.getTotalCount()+1);
+            statistics.setValidCount(statistics.getValidCount()+1);
             userLocationStatisticsMapper.updateByLocationID(statistics);
         }
     }
