@@ -169,7 +169,7 @@
     pres_ = #{pres},
     vis_ = #{vis},
     cloud_ = #{cloud}
-    where date_ = #{date} and city_id_ = #{cityID}
+    where city_id_ = #{cityId}
   </update>
 
 </mapper>

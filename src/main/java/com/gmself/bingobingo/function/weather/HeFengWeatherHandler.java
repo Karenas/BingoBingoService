@@ -57,7 +57,7 @@ public class HeFengWeatherHandler {
 
     public void requestWeatherNow(String location){
         if (null == weatherService){
-            weatherService = ApplicationContextProvider.getBean(WeatherServiceImpl.class);
+            weatherService = new WeatherServiceImpl();
         }
 
 //        /**

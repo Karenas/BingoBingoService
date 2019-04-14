@@ -29,7 +29,7 @@ public class TimerTaskManager {
     @Autowired
     private StatisticsService statisticsService;
 
-    private boolean isReqWeatherForecast = false;
+    private boolean isReqWeatherForecast = true;
 
     public void runWeatherTask(){
         if (null == weatherService){
@@ -40,8 +40,8 @@ public class TimerTaskManager {
             statisticsService = new StatisticsServiceImpl();
         }
 
-        int planningH = 6;
-        int planningM = 0;
+        int planningH = 8;
+        int planningM = 59;
 
         Calendar c = DateTools.getCurrentTime();
         int h = c.get(Calendar.HOUR_OF_DAY);
